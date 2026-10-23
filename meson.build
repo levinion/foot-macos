@@ -8,9 +8,13 @@ project('foot', 'c', 'objc',
           'werror=true',
           'b_ndebug=if-release'])
 
-if host_machine.system() != 'darwin'
-  error('This is the macOS port of foot. Use upstream foot on Linux and BSD.')
+# The native macOS port is built by macos/meson.build
+if host_machine.system() == 'darwin'
+  subdir('macos')
+  subdir_done()
 endif
+
+error('This is the macOS port of foot. Use upstream foot on Linux and BSD.')
 
 is_debug_build = get_option('buildtype').startswith('debug')
 
