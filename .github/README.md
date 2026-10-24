@@ -54,9 +54,10 @@ frameworks.
 ## macOS specifics
 
 * `Cmd+C` / `Cmd+V` copy and paste, `Cmd+N` opens a new window (in the
-  same process), `Cmd+,` opens the configuration in `$EDITOR`, `Cmd+=`
-  / `Cmd+-` / `Cmd+0` change the font size, `Ctrl+Cmd+F` toggles
-  fullscreen. foot's own key bindings (e.g. `Ctrl+Shift+C`) still work.
+  same process, and in the current window's working directory), `Cmd+,`
+  opens the configuration in `$EDITOR`, `Cmd+=` / `Cmd+-` / `Cmd+0`
+  change the font size, `Ctrl+Cmd+F` toggles fullscreen. foot's own key
+  bindings (e.g. `Ctrl+Shift+C`) still work.
 * The Option key produces characters (like on any Mac). To use it as
   Alt/Meta, set `macos-option-as-alt=left|right|both` in `[main]`.
 * The configuration is read from `~/.config/foot/foot.ini`. New windows
