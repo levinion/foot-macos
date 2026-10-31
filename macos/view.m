@@ -203,10 +203,11 @@ utf8_offset(NSString *str, NSUInteger idx)
  */
 
 - (void)updateModifiers:(NSEventModifierFlags)flags
+            optionAsAlt:(enum option_as_alt)option_as_alt
 {
     struct seat *seat = app_seat();
     uint32_t depressed, locked;
-    keyboard_modifiers(seat, flags, app_option_as_alt(), &depressed, &locked);
+    keyboard_modifiers(seat, flags, option_as_alt, &depressed, &locked);
     input_modifiers(seat, depressed, 0, locked, 0);
 }
 
@@ -232,7 +233,10 @@ keymap_produces(const struct seat *seat, uint32_t key, NSString *text)
     const NSEventModifierFlags flags = event.modifierFlags;
     const uint32_t key = keyboard_xkb_keycode(event.keyCode);
 
-    [self updateModifiers:flags];
+    const enum option_as_alt option_as_alt =
+        keyboard_option_as_alt_for_key(seat, event.keyCode, app_option_as_alt());
+
+    [self updateModifiers:flags optionAsAlt:option_as_alt];
 
     /*
      * Let the input method see the key first, unless it obviously
@@ -245,7 +249,7 @@ keymap_produces(const struct seat *seat, uint32_t key, NSString *text)
         term->ime_enabled &&
         !(flags & (NSEventModifierFlagControl | NSEventModifierFlagCommand)) &&
         !((flags & NSEventModifierFlagOption) &&
-          keyboard_option_is_alt(flags, app_option_as_alt()));
+          keyboard_option_is_alt(flags, option_as_alt));
 
     _keyDownText = nil;
     _keyDownComposed = NO;
@@ -281,7 +285,9 @@ keymap_produces(const struct seat *seat, uint32_t key, NSString *text)
     if (term == NULL || seat == NULL || seat->kbd_focus != term)
         return;
 
-    [self updateModifiers:event.modifierFlags];
+    [self updateModifiers:event.modifierFlags
+              optionAsAlt:keyboard_option_as_alt_for_key(
+                              seat, event.keyCode, app_option_as_alt())];
 
     NSNumber *keycode = @(event.keyCode);
     if ([_consumedKeys containsObject:keycode]) {
@@ -313,7 +319,7 @@ keymap_produces(const struct seat *seat, uint32_t key, NSString *text)
                   down ? KEY_STATE_PRESSED : KEY_STATE_RELEASED, false);
     }
 
-    [self updateModifiers:event.modifierFlags];
+    [self updateModifiers:event.modifierFlags optionAsAlt:app_option_as_alt()];
 }
 
 - (BOOL)performKeyEquivalent:(NSEvent *)event

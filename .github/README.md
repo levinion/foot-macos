@@ -58,8 +58,12 @@ frameworks.
   opens the configuration in `$EDITOR`, `Cmd+=` / `Cmd+-` / `Cmd+0`
   change the font size, `Ctrl+Cmd+F` toggles fullscreen. foot's own key
   bindings (e.g. `Ctrl+Shift+C`) still work.
-* The Option key produces characters (like on any Mac). To use it as
-  Alt/Meta, set `macos-option-as-alt=left|right|both` in `[main]`.
+* On U.S., U.S. International and ABC layouts, the left Option key is
+  Alt/Meta, and the right one produces characters. Other layouts need
+  Option for characters like `@` or `[`, so both keys produce characters
+  there (like on any Mac). `macos-option-as-alt=none|left|right|both` in
+  `[main]` changes that. On keys without text (arrows, Return, Backspace
+  etc), Option always is Alt.
 * The configuration is read from `~/.config/foot/foot.ini`. New windows
   re-read it, so changes apply without restarting foot.
 * Font sizes are in points, like in other macOS applications. The
