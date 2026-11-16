@@ -29,7 +29,7 @@
  * size, scale, focus or state (fullscreen etc) changes.
  */
 
-/* A borderless window (macos-titlebar-style=none) still takes the keyboard */
+/* A borderless window ([csd] preferred=none) still takes the keyboard */
 @interface FootWindow : NSWindow
 @end
 
@@ -424,8 +424,9 @@ wayl_win_init(struct terminal *term, const char *token)
     /* The real size is chosen in the initial configure */
     const NSRect rect = NSMakeRect(0, 0, 640, 400);
 
-    const bool borderless =
-        conf->macos.titlebar_style == MACOS_TITLEBAR_NONE;
+    /* No CSD on macOS: "none" is a borderless window; client/server
+     * are the native titlebar (the platform's decoration) */
+    const bool borderless = conf->csd.preferred == CONF_CSD_PREFER_NONE;
 
     NSWindow *nswindow = [[FootWindow alloc]
         initWithContentRect:rect

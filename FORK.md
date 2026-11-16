@@ -14,7 +14,7 @@ Removed from the port:
 - The command palette (`macos/palette.m`)
 - The Quake terminal and its global hotkey (`macos/quake.m`, `macos/hotkey.m`)
 - Native tabs and splits (`macos/tabs.m`, `macos/split*`, `macos/splits*`)
-- Tabs in the titlebar (`macos-titlebar-style=tabs`)
+- The port's custom titlebar styles
 - Notification Center integration and command-finished notifications
 - Close confirmation (`macos-confirm-close`)
 - Hints, Cmd+click URL opening, the pager, custom titles, and input to all
@@ -31,7 +31,7 @@ Kept:
 - foot's terminal core, scrollback, search, URL mode, IME, clipboard,
   color themes from `include=`
 - `macos-option-as-alt` (Option has to map to Alt/Meta somehow)
-- `macos-titlebar-style=none`: a borderless window, for tiling window
+- `[csd] preferred=none`: a borderless window, for tiling window
   managers; there are no traffic lights, close it with `Cmd+W`
 - The `Edit foot.ini…` menu item, which opens `~/.config/foot/foot.ini`
 

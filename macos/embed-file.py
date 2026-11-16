@@ -12,8 +12,7 @@ import sys
 MACOS_DEFAULTS = [
     ("# shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)\n",
      "# shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)\n"
-     "# macos-option-as-alt=auto  (left on U.S., U.S. International and ABC layouts, none on others; or none, left, right or both)\n"
-     "# macos-titlebar-style=native  (none: no system titlebar, a borderless window)\n"),
+     "# macos-option-as-alt=auto  (left on U.S., U.S. International and ABC layouts, none on others; or none, left, right or both)\n"),
     ('# launch=xdg-open ${url}\n', '# launch=open ${url}\n'),
 ]
 
