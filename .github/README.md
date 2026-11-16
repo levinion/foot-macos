@@ -66,12 +66,11 @@ frameworks.
   etc), Option always is Alt.
 * The configuration is read from `~/.config/foot/foot.ini`. New windows
   re-read it, so changes apply without restarting foot.
-* `[csd] preferred=none` makes new windows borderless, as upstream's
-  request for no decorations: no titlebar, no traffic lights. Close with
-  `Cmd+W`; move and resize with a window manager (e.g. Hammerspoon) or
-  the mouse's window background. Full screen still works
-  (`Ctrl+Cmd+F`). `client` and `server` both use the native titlebar,
-  since macOS has no CSD.
+* `[csd] preferred=none` is Alacritty's `decorations = "Buttonless"`:
+  the titlebar stays (rounded corners, a drag area), but its title and
+  traffic lights are hidden, and the terminal fills its height. Close
+  with `Cmd+W`; full screen still works (`Ctrl+Cmd+F`). `client` and
+  `server` both use the normal native titlebar, since macOS has no CSD.
 * Font sizes are in points, like in other macOS applications. The
   default font is SF Mono (`monospace`), 8pt, as upstream. Icons from
   installed Nerd Fonts are used automatically.

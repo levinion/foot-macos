@@ -29,15 +29,6 @@
  * size, scale, focus or state (fullscreen etc) changes.
  */
 
-/* A borderless window ([csd] preferred=none) still takes the keyboard */
-@interface FootWindow : NSWindow
-@end
-
-@implementation FootWindow
-- (BOOL)canBecomeKeyWindow { return YES; }
-- (BOOL)canBecomeMainWindow { return YES; }
-@end
-
 @interface FootWindowDelegate : NSObject <NSWindowDelegate>
 @property (nonatomic) struct wl_window *win;
 @end
@@ -424,21 +415,21 @@ wayl_win_init(struct terminal *term, const char *token)
     /* The real size is chosen in the initial configure */
     const NSRect rect = NSMakeRect(0, 0, 640, 400);
 
-    /* No CSD on macOS: "none" is a borderless window; client/server
-     * are the native titlebar (the platform's decoration) */
-    const bool borderless = conf->csd.preferred == CONF_CSD_PREFER_NONE;
+    /*
+     * No CSD on macOS. "none" is Alacritty's "buttonless": the native
+     * titlebar stays (rounded corners, a drag area), but its title and
+     * traffic lights are hidden, and the terminal fills its height.
+     * client/server keep the native titlebar.
+     */
+    const bool buttonless = conf->csd.preferred == CONF_CSD_PREFER_NONE;
 
-    NSWindow *nswindow = [[FootWindow alloc]
+    NSWindow *nswindow = [[NSWindow alloc]
         initWithContentRect:rect
-                  styleMask:(borderless
-                             ? (NSWindowStyleMaskBorderless |
-                                NSWindowStyleMaskClosable |
-                                NSWindowStyleMaskMiniaturizable |
-                                NSWindowStyleMaskResizable)
-                             : (NSWindowStyleMaskTitled |
-                                NSWindowStyleMaskClosable |
-                                NSWindowStyleMaskMiniaturizable |
-                                NSWindowStyleMaskResizable))
+                  styleMask:(NSWindowStyleMaskTitled |
+                             NSWindowStyleMaskClosable |
+                             NSWindowStyleMaskMiniaturizable |
+                             NSWindowStyleMaskResizable |
+                             (buttonless ? NSWindowStyleMaskFullSizeContentView : 0))
                     backing:NSBackingStoreBuffered
                       defer:NO];
 
@@ -446,8 +437,15 @@ wayl_win_init(struct terminal *term, const char *token)
     nswindow.tabbingMode = NSWindowTabbingModeDisallowed;
     nswindow.collectionBehavior |= NSWindowCollectionBehaviorFullScreenPrimary;
     nswindow.title = @"foot";
-    if (borderless)
-        nswindow.movableByWindowBackground = YES;
+
+    if (buttonless) {
+        nswindow.titleVisibility = NSWindowTitleHidden;
+        nswindow.titlebarAppearsTransparent = YES;
+        nswindow.titlebarSeparatorStyle = NSTitlebarSeparatorStyleNone;
+        [[nswindow standardWindowButton:NSWindowCloseButton] setHidden:YES];
+        [[nswindow standardWindowButton:NSWindowMiniaturizeButton] setHidden:YES];
+        [[nswindow standardWindowButton:NSWindowZoomButton] setHidden:YES];
+    }
     win->scale = nswindow.backingScaleFactor;
 
     FootView *view = [[FootView alloc] initWithFrame:rect window:win];

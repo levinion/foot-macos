@@ -31,8 +31,8 @@ Kept:
 - foot's terminal core, scrollback, search, URL mode, IME, clipboard,
   color themes from `include=`
 - `macos-option-as-alt` (Option has to map to Alt/Meta somehow)
-- `[csd] preferred=none`: a borderless window, for tiling window
-  managers; there are no traffic lights, close it with `Cmd+W`
+- `[csd] preferred=none`: Alacritty's buttonless titlebar (no title or
+  traffic lights, terminal under it); close it with `Cmd+W`
 - The `Edit foot.ini…` menu item, which opens `~/.config/foot/foot.ini`
 
 Build and test as before: `make build`, `make test`, `make run`.
