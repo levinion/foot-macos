@@ -7,7 +7,7 @@ happens in the terminal core, which this port doesn't touch.
 ## Branches
 
 - `master`: identical to upstream's `master` (never commit to it).
-- `macos`: the port; upstream is *merged* into it (never rebased).
+- `macos-vanilla`: the fork; upstream is *merged* into it (never rebased).
 
 ## Syncing
 
