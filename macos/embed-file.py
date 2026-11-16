@@ -10,6 +10,7 @@
 import sys
 
 MACOS_DEFAULTS = [
+    ('# login-shell=no\n', '# login-shell=yes\n'),
     ("# shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)\n",
      "# shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)\n"
      "# macos-option-as-alt=auto  (left on U.S., U.S. International and ABC layouts, none on others; or none, left, right or both)\n"),

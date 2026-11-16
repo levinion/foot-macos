@@ -76,8 +76,10 @@ frameworks.
 * Font sizes are in points, like in other macOS applications. The
   default font is SF Mono (`monospace`), 8pt, as upstream. Icons from
   installed Nerd Fonts are used automatically.
-* As upstream, the shell is not started as a login shell; set
-  `login-shell=yes` in `[main]` if it needs to set up `$PATH`.
+* The shell is started as a login shell, as in Terminal.app: launched
+  from the Finder or the Dock, foot has no login environment, and the
+  shell's login files (e.g. `~/.zprofile`) set up `$PATH`. Set
+  `login-shell=no` in `[main]` for upstream's behavior.
 * `TERM=foot`; the terminfo entry is bundled, and found through
   `$TERMINFO_DIRS`.
 

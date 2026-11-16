@@ -3521,7 +3521,7 @@ config_load(struct config *conf, const char *conf_path,
         .app_id = (as_server ? xstrdup("footclient") : xstrdup("foot")),
 
         /* macOS: the shell must set up the environment (e.g. $PATH) */
-        .login_shell = false,
+        .login_shell = true,
         .toplevel_tag = xstrdup(""),
         .word_delimiters = xc32dup(U",│`|:\"'()[]{}<>"),
         .size = {

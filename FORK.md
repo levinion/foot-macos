@@ -21,8 +21,8 @@ Removed from the port:
   splits
 - Secure Keyboard Entry, VoiceOver support, and the Settings/Theme/Updates
   menus
-- macOS defaults: login shell, 8pt padding, Grok colors, font smoothing,
-  and following the system appearance
+- macOS defaults: 8pt padding, Grok colors, font smoothing, and
+  following the system appearance
 
 Kept:
 
