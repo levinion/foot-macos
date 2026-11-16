@@ -148,18 +148,6 @@ before_waiting(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *
 {
     app_run_hooks();
 
-    /*
-     * CFFileDescriptor doesn't call back if the kqueue isn't readable
-     * any more when the run loop gets to it, and its callbacks, being
-     * one-shot, are disabled then: for good, as fdm_callback() is what
-     * enables them. That happens when an event is taken back between
-     * the two, by something AppKit calls: e.g. the selection's scroll
-     * timer, stopped (or set again) as the mouse moves. Without this,
-     * nothing is read from then on: the terminals are frozen, and
-     * windows don't close.
-     */
-    if (app.fdm_cffd != NULL && !app.fdm_failed)
-        CFFileDescriptorEnableCallBacks(app.fdm_cffd, kCFFileDescriptorReadCallBack);
 }
 
 /*
@@ -576,7 +564,7 @@ create_menu(void)
 
         [menu addItem:menu_item(@"About foot", @selector(orderFrontStandardAboutPanel:), @"", 0)];
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItem:menu_item(@"Settings…", @selector(openSettings:), @",", cmd)];
+        [menu addItem:menu_item(@"Edit foot.ini…", @selector(openSettings:), @",", cmd)];
         [menu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem *services = menu_item(@"Services", nil, @"", 0);

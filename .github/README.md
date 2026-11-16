@@ -67,9 +67,10 @@ frameworks.
 * The configuration is read from `~/.config/foot/foot.ini`. New windows
   re-read it, so changes apply without restarting foot.
 * Font sizes are in points, like in other macOS applications. The
-  default font is SF Mono (`monospace`), 13pt. Icons from installed Nerd
-  Fonts are used automatically.
-* The shell is started as a login shell, so that it sets up `$PATH`.
+  default font is SF Mono (`monospace`), 8pt, as upstream. Icons from
+  installed Nerd Fonts are used automatically.
+* As upstream, the shell is not started as a login shell; set
+  `login-shell=yes` in `[main]` if it needs to set up `$PATH`.
 * `TERM=foot`; the terminfo entry is bundled, and found through
   `$TERMINFO_DIRS`.
 

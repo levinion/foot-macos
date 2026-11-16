@@ -71,8 +71,7 @@ Upstream files are changed as little as possible, in one of four ways:
    | `fdm.h`, `shm.h` | Additions for run loop integration, and IOSurface buffers (`macos/fdm.c`, `macos/shm.c`). |
    | `.gitignore` | The build directories (`/build/`, `/build-release/`, `/build-x86_64/`, and `-pgo` versions of the last two). |
 
-4. **Upstream bugs, fixed in place.** Found while fuzzing the snapshots
-   of persistent sessions; these aren't sent upstream. If upstream fixes
+4. **Upstream bugs, fixed in place.** Found while fuzzing the terminal's snapshots; these aren't sent upstream. If upstream fixes
    one itself, take upstream's fix and drop the fork's.
 
    | File | The bug | The fix |

@@ -3521,7 +3521,7 @@ config_load(struct config *conf, const char *conf_path,
         .app_id = (as_server ? xstrdup("footclient") : xstrdup("foot")),
 
         /* macOS: the shell must set up the environment (e.g. $PATH) */
-        .login_shell = true,
+        .login_shell = false,
         .toplevel_tag = xstrdup(""),
         .word_delimiters = xc32dup(U",│`|:\"'()[]{}<>"),
         .size = {
@@ -3694,9 +3694,8 @@ config_load(struct config *conf, const char *conf_path,
 
     parse_modifiers(XKB_MOD_NAME_SHIFT, 5, &conf->mouse.selection_override_modifiers);
 
-    /* macOS: Notification Center via osascript; URLs open with the default app */
     tokenize_cmdline(
-        "osascript -e \"on run argv\" -e \"display notification (item 2 of argv) with title (item 1 of argv)\" -e \"end run\" ${title} ${body}",
+        "notify-send --wait --app-name ${app-id} --icon ${app-id} --category ${category} --urgency ${urgency} --expire-time ${expire-time} --hint STRING:image-path:${icon} --hint BOOLEAN:suppress-sound:${muted} --hint STRING:sound-name:${sound-name} --replace-id ${replace-id} ${action-argument} --print-id -- ${title} ${body}",
         &conf->desktop_notifications.command.argv.args);
     tokenize_cmdline("--action ${action-name}=${action-label}", &conf->desktop_notifications.command_action_arg.argv.args);
     tokenize_cmdline("open ${url}", &conf->url.launch.argv.args);
@@ -4086,7 +4085,7 @@ config_free(struct config *conf)
 }
 
 /* Default font size, in points, if the font pattern doesn't specify one */
-#define DEFAULT_FONT_PT_SIZE 13.0
+#define DEFAULT_FONT_PT_SIZE 8.0
 
 bool
 config_font_parse(const char *pattern, struct config_font *font)

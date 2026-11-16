@@ -10,8 +10,6 @@
 import sys
 
 MACOS_DEFAULTS = [
-    ('# login-shell=no\n', '# login-shell=yes\n'),
-    ('# font=monospace:size=8\n', '# font=monospace:size=13\n'),
     ("# shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)\n",
      "# shell=$SHELL (if set, otherwise user's default shell from /etc/passwd)\n"
      "# macos-option-as-alt=auto  (left on U.S., U.S. International and ABC layouts, none on others; or none, left, right or both)\n"),
@@ -29,14 +27,6 @@ def main():
             if old not in text:
                 sys.exit(f'{path}: expected default not found: {old.strip()}')
             text = text.replace(old, new, 1)
-
-        # The notification command
-        text = '\n'.join(
-            '# command=osascript -e "on run argv" -e "display notification '
-            '(item 2 of argv) with title (item 1 of argv)" -e "end run" '
-            '${title} ${body}'
-            if line.startswith('# command=notify-send') else line
-            for line in text.split('\n'))
 
     with open(output, 'w', encoding='utf-8') as f:
         f.write('#pragma once\n\n')
