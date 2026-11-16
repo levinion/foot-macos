@@ -14,6 +14,7 @@
 #include "render.h"
 #include "selection.h"
 #include "shm.h"
+#include "config.h"
 #include "terminal.h"
 #include "url-mode.h"
 
@@ -580,7 +581,43 @@ keymap_produces(const struct seat *seat, uint32_t key, NSString *text)
         input_pointer_leave(seat);
 }
 
-- (void)mouseDown:(NSEvent *)event        { [self button:event pressed:YES]; }
+/*
+ * Buttonless windows ([csd] preferred=none): the titlebar is transparent
+ * and its buttons are hidden, but it still has to drag. AppKit's
+ * titlebar doesn't take the click (the full-size content view does), so
+ * the top titlebar-high strip of the terminal does.
+ */
+- (BOOL)dragTitlebar:(NSEvent *)event
+{
+    struct terminal *term = self.term;
+    if (term == NULL || term->conf->csd.preferred != CONF_CSD_PREFER_NONE)
+        return NO;
+
+    NSWindow *window = self.window;
+    if (window == nil || (window.styleMask & NSWindowStyleMaskFullScreen))
+        return NO;
+
+    NSView *content = window.contentView;
+    const CGFloat height = NSHeight(content.frame);
+    const CGFloat titlebar = height - NSHeight(window.contentLayoutRect);
+    if (titlebar <= 0.)
+        return NO;
+
+    /* locationInWindow has its origin at the bottom left */
+    if (event.locationInWindow.y < height - titlebar)
+        return NO;
+
+    [window performWindowDragWithEvent:event];
+    return YES;
+}
+
+- (void)mouseDown:(NSEvent *)event
+{
+    if ([self dragTitlebar:event])
+        return;
+    [self button:event pressed:YES];
+}
+
 - (void)mouseUp:(NSEvent *)event          { [self button:event pressed:NO]; }
 - (void)rightMouseDown:(NSEvent *)event   { [self button:event pressed:YES]; }
 - (void)rightMouseUp:(NSEvent *)event     { [self button:event pressed:NO]; }
