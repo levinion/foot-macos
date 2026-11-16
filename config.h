@@ -227,6 +227,11 @@ enum underline_style {
     UNDERLINE_DASHED,
 };
 
+enum macos_titlebar_style {
+    MACOS_TITLEBAR_NATIVE,
+    MACOS_TITLEBAR_NONE,
+};
+
 struct config {
     char *conf_path;
 
@@ -234,6 +239,9 @@ struct config {
     struct {
         /* Option key acts as Alt: auto, none, left, right, both (enum option_as_alt) */
         int option_as_alt;
+
+        /* The window's titlebar: native, or none (borderless) */
+        int titlebar_style;
     } macos;
 
     char *term;

@@ -29,6 +29,15 @@
  * size, scale, focus or state (fullscreen etc) changes.
  */
 
+/* A borderless window (macos-titlebar-style=none) still takes the keyboard */
+@interface FootWindow : NSWindow
+@end
+
+@implementation FootWindow
+- (BOOL)canBecomeKeyWindow { return YES; }
+- (BOOL)canBecomeMainWindow { return YES; }
+@end
+
 @interface FootWindowDelegate : NSObject <NSWindowDelegate>
 @property (nonatomic) struct wl_window *win;
 @end
@@ -415,12 +424,20 @@ wayl_win_init(struct terminal *term, const char *token)
     /* The real size is chosen in the initial configure */
     const NSRect rect = NSMakeRect(0, 0, 640, 400);
 
-    NSWindow *nswindow = [[NSWindow alloc]
+    const bool borderless =
+        conf->macos.titlebar_style == MACOS_TITLEBAR_NONE;
+
+    NSWindow *nswindow = [[FootWindow alloc]
         initWithContentRect:rect
-                  styleMask:(NSWindowStyleMaskTitled |
-                             NSWindowStyleMaskClosable |
-                             NSWindowStyleMaskMiniaturizable |
-                             NSWindowStyleMaskResizable)
+                  styleMask:(borderless
+                             ? (NSWindowStyleMaskBorderless |
+                                NSWindowStyleMaskClosable |
+                                NSWindowStyleMaskMiniaturizable |
+                                NSWindowStyleMaskResizable)
+                             : (NSWindowStyleMaskTitled |
+                                NSWindowStyleMaskClosable |
+                                NSWindowStyleMaskMiniaturizable |
+                                NSWindowStyleMaskResizable))
                     backing:NSBackingStoreBuffered
                       defer:NO];
 
@@ -428,6 +445,8 @@ wayl_win_init(struct terminal *term, const char *token)
     nswindow.tabbingMode = NSWindowTabbingModeDisallowed;
     nswindow.collectionBehavior |= NSWindowCollectionBehaviorFullScreenPrimary;
     nswindow.title = @"foot";
+    if (borderless)
+        nswindow.movableByWindowBackground = YES;
     win->scale = nswindow.backingScaleFactor;
 
     FootView *view = [[FootView alloc] initWithFrame:rect window:win];

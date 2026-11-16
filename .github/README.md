@@ -66,6 +66,10 @@ frameworks.
   etc), Option always is Alt.
 * The configuration is read from `~/.config/foot/foot.ini`. New windows
   re-read it, so changes apply without restarting foot.
+* `macos-titlebar-style=none` in `[main]` makes new windows borderless:
+  no titlebar, no traffic lights. Close with `Cmd+W`; move and resize
+  with a window manager (e.g. Hammerspoon) or the mouse's window
+  background. Full screen still works (`Ctrl+Cmd+F`).
 * Font sizes are in points, like in other macOS applications. The
   default font is SF Mono (`monospace`), 8pt, as upstream. Icons from
   installed Nerd Fonts are used automatically.

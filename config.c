@@ -1150,6 +1150,12 @@ parse_section_main(struct context *ctx)
             &conf->macos.option_as_alt);
     }
 
+    else if (streq(key, "macos-titlebar-style")) {
+        return value_to_enum(
+            ctx, (const char *[]){"native", "none", NULL},
+            &conf->macos.titlebar_style);
+    }
+
     else if (streq(key, "selection-target")) {
         _Static_assert(sizeof(conf->selection_target) == sizeof(int),
                        "enum is not 32-bit");

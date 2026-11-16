@@ -31,6 +31,8 @@ Kept:
 - foot's terminal core, scrollback, search, URL mode, IME, clipboard,
   accessibility of the terminal view, color themes from `include=`
 - `macos-option-as-alt` (Option has to map to Alt/Meta somehow)
+- `macos-titlebar-style=none`: a borderless window, for tiling window
+  managers; there are no traffic lights, close it with `Cmd+W`
 - The `Edit foot.ini…` menu item, which opens `~/.config/foot/foot.ini`
 
 Build and test as before: `make build`, `make test`, `make run`.
