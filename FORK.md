@@ -29,7 +29,7 @@ Kept:
 - One terminal per window, as upstream
 - The native AppKit/CoreText/CoreAnimation platform layer
 - foot's terminal core, scrollback, search, URL mode, IME, clipboard,
-  accessibility of the terminal view, color themes from `include=`
+  color themes from `include=`
 - `macos-option-as-alt` (Option has to map to Alt/Meta somehow)
 - `macos-titlebar-style=none`: a borderless window, for tiling window
   managers; there are no traffic lights, close it with `Cmd+W`
